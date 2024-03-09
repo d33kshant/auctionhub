@@ -12,3 +12,80 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id String @id @default(uuid())
+
+  email    String @unique
+  avatar   String @default("avatar.png")
+  password String
+
+  reviews   Review[]
+  answers   Answer[]
+  auctions  Auction[]
+  questions Question[]
+}
+
+model Auction {
+  id String @id @default(uuid())
+
+  title       String
+  description String
+
+  price   Int
+  highest Int
+
+  sold Boolean @default(false)
+
+  creator_id String
+  creator    User   @relation(references: [id], fields: [creator_id])
+
+  reviews Review[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Review {
+  id String @id @default(uuid())
+
+  text String
+
+  creator_id String
+  creator    User   @relation(references: [id], fields: [creator_id])
+
+  auction_id String
+  auction    Auction @relation(references: [id], fields: [auction_id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Question {
+  id String @id @default(uuid())
+
+  text String
+
+  creator_id String
+  creator    User   @relation(references: [id], fields: [creator_id])
+
+  answers Answer[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Answer {
+  id String @id @default(uuid())
+
+  text String
+
+  creator_id String
+  creator    User   @relation(references: [id], fields: [creator_id])
+
+  question_id String
+  question    Question @relation(references: [id], fields: [question_id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
