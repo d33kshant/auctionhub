@@ -14,11 +14,13 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-
-  email    String @unique
-  avatar   String @default("avatar.png")
-  password String
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  avatar    String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   reviews   Review[]
   answers   Answer[]
@@ -33,17 +35,17 @@ model Auction {
   description String
 
   price   Int
-  highest Int
+  highest Int @default(-1)
 
   sold Boolean @default(false)
 
-  creator_id String
-  creator    User   @relation(references: [id], fields: [creator_id])
+  creatorId String
+  creator   User   @relation(references: [id], fields: [creatorId])
 
   reviews Review[]
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Review {
@@ -51,14 +53,14 @@ model Review {
 
   text String
 
-  creator_id String
-  creator    User   @relation(references: [id], fields: [creator_id])
+  creatorId String
+  creator   User   @relation(references: [id], fields: [creatorId])
 
-  auction_id String
-  auction    Auction @relation(references: [id], fields: [auction_id])
+  auctionId String
+  auction   Auction @relation(references: [id], fields: [auctionId])
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Question {
@@ -66,13 +68,13 @@ model Question {
 
   text String
 
-  creator_id String
-  creator    User   @relation(references: [id], fields: [creator_id])
+  creatorId String
+  creator   User   @relation(references: [id], fields: [creatorId])
 
   answers Answer[]
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Answer {
@@ -80,12 +82,12 @@ model Answer {
 
   text String
 
-  creator_id String
-  creator    User   @relation(references: [id], fields: [creator_id])
+  creatorId String
+  creator   User   @relation(references: [id], fields: [creatorId])
 
-  question_id String
-  question    Question @relation(references: [id], fields: [question_id])
+  questionId String
+  question   Question @relation(references: [id], fields: [questionId])
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
