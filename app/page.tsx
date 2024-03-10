@@ -30,7 +30,7 @@ export default function Home() {
             </Box>
             <Divider />
             <Box display="flex" alignItems="center" py={1} px={2}>
-              <Typography color="black" sx={{ textDecoration: "none" }} component="a" href="/action" flex={1}>More Auctions</Typography>
+              <Typography color="black" sx={{ textDecoration: "none" }} component="a" href="/auction" flex={1}>More Auctions</Typography>
               <ArrowForwardIos fontSize="small" color="action" />
             </Box>
           </Box>
